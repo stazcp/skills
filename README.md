@@ -29,10 +29,10 @@ also ask for a handoff at any time: "hand this off", "send it to tier-fast",
 | `/orc` | Turn handoffs on for this session |
 | `/orc <task>` | Get handoff options for one task right away |
 | `orc off` | Back to a plain session |
-| `claude --agent orc:router` | Handoffs on from the first turn, for the whole session |
+| `claude --agent orc:orchestrator` | Handoffs on from the first turn, for the whole session |
 
 `/orc` is the easy way to try it, because nothing changes until you ask.
-`--agent orc:router` puts the rules in the system prompt, so they hold better
+`--agent orc:orchestrator` puts the rules in the system prompt, so they hold better
 over long sessions.
 
 ### Tiers

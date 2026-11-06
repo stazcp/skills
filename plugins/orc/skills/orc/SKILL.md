@@ -9,11 +9,11 @@ description: >-
 
 # orc
 
-Read `../../agents/router.md`, relative to this skill's base directory, now,
+Read `../../agents/orchestrator.md`, relative to this skill's base directory, now,
 in full, and follow it for the rest of this session. It is the reference;
 don't restate it.
 
-Adaptations, because this session was not launched as the router:
+Adaptations, because this session was not launched as the orchestrator:
 
 - **Tools.** You keep every tool you have.
 - **Tiers.** orc:tier-cheap, orc:tier-fast, orc:tier-strong, orc:tier-max,
@@ -31,4 +31,4 @@ away, recommended one first.
 "orc off" ends it: say so in one line and stop suggesting handoffs. Nothing
 persists; a new session starts plain.
 
-`claude --agent orc:router` at the shell is the same thing from the first turn.
+`claude --agent orc:orchestrator` at the shell is the same thing from the first turn.
