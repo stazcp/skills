@@ -1,7 +1,7 @@
 {
   "name": "orc",
   "version": "0.1.0",
-  "description": "Keep working in your main session, and hand a piece to a cheaper or stronger tier agent only when it actually pays off.",
+  "description": "Orchestrator: keep working in your main session, and hand a piece to a cheaper or stronger tier agent only when it actually pays off.",
   "author": { "name": "Staz Christodoulakis", "url": "https://staz.ai" },
   "homepage": "https://github.com/stazcp/skills",
   "repository": "https://github.com/stazcp/skills",

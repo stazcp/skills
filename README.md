@@ -9,6 +9,8 @@ Claude Code plugins I use every day, for personal and work projects.
 
 ## orc
 
+orc is short for orchestrator.
+
 Your main session keeps doing the work. It hands a piece to a tier agent only
 when that pays off:
 
