@@ -75,6 +75,12 @@ If a vault's spec names a git remote, brain pushes after each commit, but only
 once [gitleaks](https://github.com/gitleaks/gitleaks) finds no secrets in it.
 Without gitleaks it commits and doesn't push.
 
+It isn't tied to Obsidian. Any folder of Markdown notes works, such as a
+Logseq or Foam graph, or a plain folder in a git repo. `--setup` only finds
+Obsidian vaults by itself, so give it the folder's path for anything else. If
+your tool doesn't read `[[wikilinks]]`, set the link style in the spec's
+Conventions section.
+
 ## License
 
 MIT

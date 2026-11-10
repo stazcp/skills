@@ -10,6 +10,12 @@ The user keeps one or more private Obsidian vaults: often one per workplace
 and a personal one that outlives every job. This skill writes clean notes
 into the right one and reads them back. Nothing else.
 
+A "vault" is any folder of Markdown notes. Obsidian is the default, not a
+requirement: for a vault without `.obsidian/`, skip the Obsidian-only steps
+(its daily-notes settings fall back to the defaults below) and follow the
+spec's Conventions for link style, using `[[basename]]` only where the spec
+allows it or the neighbouring notes already do.
+
 **This file is the engine and holds no proper nouns.** Which vault, where it
 lives, how it commits, how it names files: all of that is in the vault's
 spec. When this file and a spec disagree, the spec wins.
@@ -55,6 +61,7 @@ For a new machine or a new vault. Find candidates: any directory under `~`
 up to 4 levels deep that holds a `.obsidian/` folder, plus
 `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/` on macOS. Show
 them next to the specs that exist, and **ask** which spec each one is.
+A vault that isn't an Obsidian vault won't turn up here; ask for its path.
 Then either fix the spec's Path, or copy `vault-template.md` (next to this
 file) to `<home>/<name>.md` and fill it in with the user, asking rather
 than guessing each section. If there is no `active` file yet, ask which
