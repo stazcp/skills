@@ -5,6 +5,7 @@ Claude Code plugins I use every day, for personal and work projects.
 ```
 /plugin marketplace add stazcp/skills
 /plugin install orc@staz
+/plugin install brain@staz
 ```
 
 ## orc
@@ -49,6 +50,30 @@ over long sessions.
 Start your session on Opus, or on Fable if your account has it. Each subagent
 starts cold, with roughly 15–25k tokens of context, so orc keeps small and
 medium work in your session.
+
+## brain
+
+Save notes to your Obsidian vaults, and recall them, from inside a session.
+It handles more than one vault, for example one per job and a personal one,
+and won't write one vault's notes into another.
+
+| | |
+|---|---|
+| `/brain <text>` | Save a note. "Save that" works, because it reads the conversation |
+| `/brain ? <query>` | Answer from your notes, citing each note it used |
+| `/brain session` | Write up this conversation: decisions, findings, open questions, links |
+| `/brain @<vault> …` | Use a vault other than the default |
+| `/brain --setup` | Find your vaults and write a spec for each |
+
+Each vault has a short spec at `~/.config/brain/<name>.md` (or under
+`$BRAIN_HOME`) that sets its path, what belongs in it, how files are named and
+filed, and whether it commits to git. `~/.config/brain/active` holds the
+default vault's name. Run `/brain --setup` to write the specs, or copy
+[`vault-template.md`](plugins/brain/skills/brain/vault-template.md).
+
+If a vault's spec names a git remote, brain pushes after each commit, but only
+once [gitleaks](https://github.com/gitleaks/gitleaks) finds no secrets in it.
+Without gitleaks it commits and doesn't push.
 
 ## License
 

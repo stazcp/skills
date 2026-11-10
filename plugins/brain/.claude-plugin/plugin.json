@@ -1,0 +1,9 @@
+{
+  "name": "brain",
+  "version": "0.1.0",
+  "description": "Save notes to, and recall them from, your Obsidian vaults: one vault per job plus a personal one, each with its own house rules.",
+  "author": { "name": "Staz Christodoulakis", "url": "https://staz.ai" },
+  "homepage": "https://github.com/stazcp/skills",
+  "repository": "https://github.com/stazcp/skills",
+  "license": "MIT"
+}

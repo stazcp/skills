@@ -7,6 +7,11 @@
       "name": "orc",
       "source": "./plugins/orc",
       "description": "Orchestrator: keep working in your main session, and hand a piece to a cheaper or stronger tier agent only when it actually pays off."
+    },
+    {
+      "name": "brain",
+      "source": "./plugins/brain",
+      "description": "Save notes to, and recall them from, your Obsidian vaults: one vault per job plus a personal one, each with its own house rules."
     }
   ]
 }
