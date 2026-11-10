@@ -9,20 +9,6 @@ Claude Code plugins I use every day, for personal and work projects.
 
 ## orc
 
-```
-        ,-"""-.
-       /  _ _  \
-      ( (o) (o) )      "Lok'tar!"
-       \   ^   /
-    ___/ \_vvv_/ \___
-   /  /|  `---'  |\  \
-  /__/ |   |||   | \__\
-       |  _|||_  |
-       | (_____) |
-       |__|   |__|
-      (___)   (___)
-```
-
 orc is short for orchestrator.
 
 Your main session keeps doing the work. It hands a piece to a tier agent only
