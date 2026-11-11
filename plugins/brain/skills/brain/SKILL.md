@@ -25,21 +25,23 @@ spec. When this file and a spec disagree, the spec wins.
 Specs live in the brain home, `$BRAIN_HOME`, or `~/.config/brain` when that
 is unset. A vault called `<name>` has its spec at `<home>/<name>.md` or
 `<home>/<name>/brain.md`. The default vault is the name written in
-`<home>/active`, a one-line file.
+`<home>/active.local` or, when that doesn't exist, `<home>/active`: one-line
+files. `active.local` lets one machine pick a different default when the
+brain home is shared through git.
 
     home="${BRAIN_HOME:-$HOME/.config/brain}"
     ls "$home"/*.md "$home"/*/brain.md 2>/dev/null   # every vault (skip TEMPLATE)
-    cat "$home/active" 2>/dev/null                   # the default vault's name
+    cat "$home/active.local" 2>/dev/null || cat "$home/active" 2>/dev/null   # default vault
 
 - **`@<name>` given** (`/brain @personal …`): use that vault's spec.
-- **No `@`**: use the vault named in `active`. With no `active` file and
-  exactly one spec, use that one.
+- **No `@`**: use the default vault. With neither file and exactly one
+  spec, use that one.
 - **Then check the content against the chosen spec's "What belongs" and
   "Never here" sections.** If it belongs in a different vault (a job search
   note while the work vault is active, say), switch to that vault and say so
   in the one-line report. If it's genuinely unclear which, ask. **Never write
   one vault's material into another, and never copy notes between vaults.**
-- **No spec found** (no brain home, no specs, or `active` names one that
+- **No spec found** (no brain home, no specs, or the default names one that
   doesn't exist): say so, list the vaults that do exist, and offer
   `--setup`.
 

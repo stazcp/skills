@@ -68,7 +68,8 @@ and won't write one vault's notes into another.
 Each vault has a short spec at `~/.config/brain/<name>.md` (or under
 `$BRAIN_HOME`) that sets its path, what belongs in it, how files are named and
 filed, and whether it commits to git. `~/.config/brain/active` holds the
-default vault's name. Run `/brain --setup` to write the specs, or copy
+default vault's name; an `active.local` next to it wins, for a machine that
+should default to a different vault. Run `/brain --setup` to write the specs, or copy
 [`vault-template.md`](plugins/brain/skills/brain/vault-template.md).
 
 If a vault's spec names a git remote, brain pushes after each commit, but only
