@@ -113,7 +113,7 @@ posts.
 
 ## reaper
 
-`/reaper` works through issues a human has labelled for it: it checks each is still worth doing, closes stale AI-generated ones, fixes the rest, proves the fix with tests and screenshots, and opens a ready PR that says no human has read it. It stops starting new work while too many of its PRs wait for review. Start with `/reaper --dry-run`; it needs a per-repo config (see `config.example.yaml`).
+`/reaper` runs issues a human has labelled for it through a bot you can tag on GitHub. Each run is one tick: it asks the bot whether each issue is still worth doing, closes stale AI-generated ones (human-filed ones go back to their author), tags the bot to fix the rest with a PR that says no human has read it, and starts nothing new while too many are in flight. It writes no code itself. Start with `/reaper --dry-run`; it needs a per-repo config (see `config.example.yaml`).
 
 ## Private settings
 

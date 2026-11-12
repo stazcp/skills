@@ -31,7 +31,7 @@
     {
       "name": "reaper",
       "source": "./plugins/reaper",
-      "description": "Work through a curated list of small bugs and tech-debt issues: check each is still worth doing, fix it, prove the fix, and open a PR for a human to review. Paced so it never outruns the team's reviews."
+      "description": "Run a curated backlog of small issues through a bot you can tag: it triages each one, closes or hands back the stale ones, tags the bot to fix the rest, and paces new work by how many PRs wait for review. Writes no code itself."
     }
   ]
 }
