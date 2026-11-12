@@ -1,9 +1,9 @@
-# Staz's skills
+# Staz's skillz
 
 Claude Code plugins I use every day, for personal and work projects.
 
 ```
-/plugin marketplace add stazcp/skills
+/plugin marketplace add stazcp/skillz
 /plugin install orc@staz
 /plugin install brain@staz
 /plugin install review-pr@staz

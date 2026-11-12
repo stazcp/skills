@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Review someone else's PR with an agent at your side, including code in a language you don't read well: plain-language explanation, independently verified findings, a draft you approve before anything is posted.",
   "author": { "name": "Staz Christodoulakis", "url": "https://staz.ai" },
-  "homepage": "https://github.com/stazcp/skills",
-  "repository": "https://github.com/stazcp/skills",
+  "homepage": "https://github.com/stazcp/skillz",
+  "repository": "https://github.com/stazcp/skillz",
   "license": "MIT"
 }
