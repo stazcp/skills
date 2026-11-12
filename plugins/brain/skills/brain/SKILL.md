@@ -41,6 +41,11 @@ brain home is shared through git.
   note while the work vault is active, say), switch to that vault and say so
   in the one-line report. If it's genuinely unclear which, ask. **Never write
   one vault's material into another, and never copy notes between vaults.**
+- **The better fit isn't on this machine** (its Path doesn't exist here): if
+  the default vault's "What belongs" covers the content and its "Never here"
+  doesn't exclude it, save to the default vault and say why in the report.
+  Otherwise stop and say which vault it needs; don't create a missing vault's
+  folder.
 - **No spec found** (no brain home, no specs, or the default names one that
   doesn't exist): say so, list the vaults that do exist, and offer
   `--setup`.
