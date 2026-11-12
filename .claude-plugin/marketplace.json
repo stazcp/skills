@@ -27,11 +27,6 @@
       "name": "standup",
       "source": "./plugins/standup",
       "description": "A Yesterday / Today / Blockers standup report from your real GitHub activity. Plain text to read out or paste; never posts."
-    },
-    {
-      "name": "reaper",
-      "source": "./plugins/reaper",
-      "description": "Run a curated backlog of small issues through a bot you can tag: it triages each one, closes or hands back the stale ones, tags the bot to fix the rest, and paces new work by how many PRs wait for review. Writes no code itself."
     }
   ]
 }
