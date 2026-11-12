@@ -17,6 +17,16 @@
       "name": "review-pr",
       "source": "./plugins/review-pr",
       "description": "Review someone else's PR with an agent at your side, including code in a language you don't read well: plain-language explanation, independently verified findings, a draft you approve before anything is posted."
+    },
+    {
+      "name": "presentation",
+      "source": "./plugins/presentation",
+      "description": "Turn a dense doc, page, issue or topic into a short animated step-through HTML explainer, built only from the source, with honest Confirmed / Likely / Not known chips. Writes one file; never publishes."
+    },
+    {
+      "name": "standup",
+      "source": "./plugins/standup",
+      "description": "A Yesterday / Today / Blockers standup report from your real GitHub activity. Plain text to read out or paste; never posts."
     }
   ]
 }

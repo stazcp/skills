@@ -1,0 +1,291 @@
+<!doctype html>
+<!--
+  /presentation skeleton. Copy it, then replace every {{PLACEHOLDER}} and the
+  example scenes. Keep the machinery (tokens, nav, script) as it is: check.py
+  and the render pass rely on ?theme=, ?motion=, #<scene>, and data-js-error.
+
+  Animation vocabulary, all CSS, all restarted when a scene is entered:
+    .token  + style="offset-path: path('<same d as its edge>')"  moves along an edge
+    .draw   + pathLength="1"  an edge or outline drawing itself in
+    .light  a box lighting up (fill and stroke move to the accent)
+    .fade   appears; add .d1 .d2 .d3 .d4 to stagger
+    .lock-open / .lock-shut  on a <g> holding a shackle path: breaks or closes
+  .edge.unknown is an unestablished link: dashed, muted, with a "?" label.
+  A .token never travels along one.
+  Under prefers-reduced-motion (or ?motion=reduce) every one of these shows its
+  end state with no movement.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<script>
+  // Before anything else, so the checks can see an error from any later script.
+  window.addEventListener('error', function (e) {
+    document.documentElement.setAttribute('data-js-error', String(e.message || e));
+  });
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var t = q.get('theme');
+    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    if (q.get('motion') === 'reduce') document.documentElement.setAttribute('data-motion', 'reduce');
+  })();
+</script>
+<style>
+  :root {
+    --bg: #fbfaf7; --surface: #ffffff; --ink: #1d1f24; --muted: #5f6570;
+    --line: #c9ccd3; --accent: #2f6fde; --accent-soft: #dce7fb;
+    --bad: #c2412d; --bad-soft: #f8dfd9; --good: #1f8a5b; --good-soft: #d8f0e4;
+    --likely: #a86a00; --likely-soft: #f6e8cc; --unknown: #7a7f89; --unknown-soft: #ebecef;
+    --banner: #3a3f4a; --banner-ink: #ffffff;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15171b; --surface: #1d2026; --ink: #e8e9ec; --muted: #a2a7b1;
+      --line: #474c57; --accent: #7aa7ff; --accent-soft: #23314d;
+      --bad: #ff8a73; --bad-soft: #4a2620; --good: #5fd3a0; --good-soft: #1d3a2e;
+      --likely: #f0b54a; --likely-soft: #3f321a; --unknown: #9da2ac; --unknown-soft: #2c2f36;
+      --banner: #2c3039; --banner-ink: #e8e9ec;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15171b; --surface: #1d2026; --ink: #e8e9ec; --muted: #a2a7b1;
+    --line: #474c57; --accent: #7aa7ff; --accent-soft: #23314d;
+    --bad: #ff8a73; --bad-soft: #4a2620; --good: #5fd3a0; --good-soft: #1d3a2e;
+    --likely: #f0b54a; --likely-soft: #3f321a; --unknown: #9da2ac; --unknown-soft: #2c2f36;
+    --banner: #2c3039; --banner-ink: #e8e9ec;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    display: flex; flex-direction: column; min-height: 100dvh;
+  }
+  .banner {
+    background: var(--banner); color: var(--banner-ink);
+    font-size: 13px; padding: 6px 16px; display: flex; gap: 12px; flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .banner strong { letter-spacing: .04em; text-transform: uppercase; }
+  main { flex: 1; display: flex; min-height: 0; }
+  .scene {
+    flex: 1; display: flex; flex-direction: column; gap: 12px;
+    max-width: 920px; margin: 0 auto; padding: 20px 16px 8px; min-height: 0; width: 100%;
+  }
+  .scene[hidden] { display: none; }
+  .scene h2 { margin: 0; font-size: 26px; line-height: 1.2; }
+  .scene .kicker { margin: 0; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  .scene figure { margin: 0; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+  .scene svg { width: 100%; height: auto; max-height: 46vh; overflow: visible; }
+  .scene p.say { margin: 0; max-width: 62ch; font-size: 18px; }
+  .scene a { color: var(--accent); }
+
+  /* SVG vocabulary */
+  /* viewBox units: at 640 wide, 16 still reads at phone width. */
+  svg text { fill: var(--ink); font: 16px system-ui, -apple-system, sans-serif; }
+  svg text.small { font-size: 14px; fill: var(--muted); }
+  .box { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+  .edge { fill: none; stroke: var(--muted); stroke-width: 2; }
+  .edge.unknown { stroke: var(--unknown); stroke-dasharray: 6 6; }
+  .q { fill: var(--unknown); font-weight: 700; }
+  .token { fill: var(--accent); offset-rotate: 0deg; }
+  .bad { stroke: var(--bad); }
+  .lock { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+  .lock-body { fill: var(--ink); }
+
+  .scene:not([hidden]) .token { animation: travel 2.4s ease-in-out .3s infinite; }
+  .scene:not([hidden]) .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1s ease-out .2s forwards; }
+  .scene:not([hidden]) .light { animation: light .6s ease-out .8s forwards; }
+  .scene:not([hidden]) .fade { opacity: 0; animation: fade .5s ease-out forwards; }
+  .scene:not([hidden]) .lock-open { animation: lock-open .6s ease-in 1s forwards; }
+  .scene:not([hidden]) .lock-shut { transform: translateY(-10px); animation: lock-shut .6s ease-in 1s forwards; }
+  .d1 { animation-delay: .4s !important; } .d2 { animation-delay: .9s !important; }
+  .d3 { animation-delay: 1.4s !important; } .d4 { animation-delay: 1.9s !important; }
+  @keyframes travel { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes light { to { fill: var(--accent-soft); stroke: var(--accent); } }
+  @keyframes fade { to { opacity: 1; } }
+  @keyframes lock-open { to { transform: translate(6px, -12px) rotate(25deg); } }
+  @keyframes lock-shut { to { transform: translateY(0); } }
+
+  /* End states, no movement. Keep the two blocks identical. */
+  @media (prefers-reduced-motion: reduce) {
+    .scene .token { animation: none !important; offset-distance: 60%; opacity: 1; }
+    .scene .draw { animation: none !important; stroke-dashoffset: 0; }
+    .scene .light { animation: none !important; fill: var(--accent-soft); stroke: var(--accent); }
+    .scene .fade { animation: none !important; opacity: 1; }
+    .scene .lock-open { animation: none !important; transform: translate(6px, -12px) rotate(25deg); }
+    .scene .lock-shut { animation: none !important; transform: none; }
+  }
+  :root[data-motion="reduce"] .scene .token { animation: none !important; offset-distance: 60%; opacity: 1; }
+  :root[data-motion="reduce"] .scene .draw { animation: none !important; stroke-dashoffset: 0; }
+  :root[data-motion="reduce"] .scene .light { animation: none !important; fill: var(--accent-soft); stroke: var(--accent); }
+  :root[data-motion="reduce"] .scene .fade { animation: none !important; opacity: 1; }
+  :root[data-motion="reduce"] .scene .lock-open { animation: none !important; transform: translate(6px, -12px) rotate(25deg); }
+  :root[data-motion="reduce"] .scene .lock-shut { animation: none !important; transform: none; }
+  .lock-open, .lock-shut { transform-box: fill-box; transform-origin: left bottom; }
+
+  /* Chips. Map the source's grades onto these four and nothing else. */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .chip { font-size: 13px; padding: 2px 9px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+  .chip.confirmed { color: var(--good); background: var(--good-soft); }
+  .chip.likely { color: var(--likely); background: var(--likely-soft); }
+  .chip.unknown { color: var(--unknown); background: var(--unknown-soft); border-style: dashed; }
+  .chip.reported { color: var(--muted); background: transparent; border-color: var(--line); }
+
+  footer {
+    border-top: 1px solid var(--line); padding: 8px 16px;
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: space-between;
+  }
+  footer .legend { font-size: 12px; color: var(--muted); display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  footer .legend .chip { font-size: 11px; }
+  .nav { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+  .nav button {
+    font: inherit; font-size: 15px; padding: 6px 14px; border-radius: 8px; cursor: pointer;
+    background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+  }
+  .nav button:disabled { opacity: .4; cursor: default; }
+  .nav button:focus-visible, .dots button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .dots { display: flex; gap: 6px; }
+  .dots button { width: 10px; height: 10px; padding: 0; border-radius: 50%; border: 1px solid var(--muted); background: transparent; cursor: pointer; }
+  .dots button[aria-current="step"] { background: var(--accent); border-color: var(--accent); }
+
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .scene h2 { font-size: 21px; }
+    .scene p.say { font-size: 16px; }
+    .scene svg { max-height: 38vh; }
+    .dots button { width: 8px; height: 8px; }
+    footer .legend { display: none; }
+  }
+  @media (max-height: 700px) {
+    .scene { padding-top: 12px; gap: 8px; }
+    .scene svg { max-height: 40vh; }
+  }
+</style>
+</head>
+<body>
+<header class="banner">
+  <span><strong>{{AUDIENCE}}</strong> &middot; as of {{AS_OF}}</span>
+  <span>Simplified from {{SOURCE_NAME}}</span>
+</header>
+
+<main id="deck">
+
+  <!-- Scene: the system before. One diagram, one or two sentences. -->
+  <section class="scene" data-title="The system before">
+    <p class="kicker">1 &middot; Before</p>
+    <h2>{{HEADLINE}}</h2>
+    <figure>
+      <svg viewBox="0 0 640 220" role="img" aria-label="{{WHAT THE DIAGRAM SHOWS}}">
+        <rect class="box" x="20" y="80" width="140" height="60" rx="8"/>
+        <text x="90" y="115" text-anchor="middle">Client</text>
+        <rect class="box light" x="480" y="80" width="140" height="60" rx="8"/>
+        <text x="550" y="115" text-anchor="middle">Service</text>
+        <path id="e1" class="edge draw" pathLength="1" d="M160 110 L480 110"/>
+        <circle class="token" r="7" style="offset-path: path('M160 110 L480 110')"/>
+      </svg>
+    </figure>
+    <p class="say">{{AT MOST ~40 WORDS}}</p>
+  </section>
+
+  <!-- Scene with an unestablished link and graded claims. -->
+  <section class="scene" data-title="What we don't know" hidden>
+    <p class="kicker">2 &middot; Unknowns</p>
+    <h2>{{HEADLINE}}</h2>
+    <figure>
+      <svg viewBox="0 0 640 220" role="img" aria-label="{{WHAT THE DIAGRAM SHOWS}}">
+        <rect class="box" x="20" y="80" width="140" height="60" rx="8"/>
+        <text x="90" y="115" text-anchor="middle">A</text>
+        <rect class="box" x="480" y="80" width="140" height="60" rx="8"/>
+        <text x="550" y="115" text-anchor="middle">B</text>
+        <path class="edge unknown" d="M160 110 L480 110"/>
+        <text class="q" x="320" y="100" text-anchor="middle">?</text>
+      </svg>
+    </figure>
+    <ul class="chips">
+      <li class="chip confirmed">Confirmed: {{CLAIM}}</li>
+      <li class="chip unknown">Not known: {{CLAIM}}</li>
+    </ul>
+    <p class="say">{{AT MOST ~40 WORDS}}</p>
+  </section>
+
+  <!-- Closing slide: what is still open, and the link to the full source. -->
+  <section class="scene" data-title="Still open" data-closing hidden>
+    <p class="kicker">Close</p>
+    <h2>What's still open</h2>
+    <figure>
+      <svg viewBox="0 0 640 140" role="img" aria-label="Open items">
+        <rect class="box fade d1" x="20" y="40" width="180" height="60" rx="8"/>
+        <text class="fade d1" x="110" y="75" text-anchor="middle">{{OPEN ITEM}}</text>
+      </svg>
+    </figure>
+    <p class="say">The full account, with every claim and its evidence: <a href="{{SOURCE_HREF}}">{{SOURCE_NAME}}</a>.</p>
+  </section>
+
+</main>
+
+<footer>
+  <!-- Delete .legend when the source grades nothing. -->
+  <div class="legend" aria-label="Legend">
+    <span class="chip confirmed">Confirmed</span>
+    <span class="chip likely">Likely</span>
+    <span class="chip unknown">Not known</span>
+    <span class="chip reported">Reported</span>
+  </div>
+  <div class="nav">
+    <button type="button" id="back">&larr; Back</button>
+    <div class="dots" id="dots" role="group" aria-label="Scenes"></div>
+    <button type="button" id="next">Next &rarr;</button>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var dots = document.getElementById('dots');
+  var back = document.getElementById('back');
+  var next = document.getElementById('next');
+  var i = 0;
+
+  scenes.forEach(function (s, n) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Scene ' + (n + 1) + ': ' + (s.getAttribute('data-title') || ''));
+    b.addEventListener('click', function () { go(n); });
+    dots.appendChild(b);
+  });
+
+  function go(n) {
+    i = Math.max(0, Math.min(scenes.length - 1, n));
+    scenes.forEach(function (s, k) { s.hidden = k !== i; });
+    Array.prototype.forEach.call(dots.children, function (b, k) {
+      if (k === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    });
+    back.disabled = i === 0;
+    next.disabled = i === scenes.length - 1;
+    if (location.hash !== '#' + (i + 1)) history.replaceState(null, '', '#' + (i + 1));
+  }
+
+  back.addEventListener('click', function () { go(i - 1); });
+  next.addEventListener('click', function () { go(i + 1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(i - 1); }
+    else if (e.key === 'Home') go(0);
+    else if (e.key === 'End') go(scenes.length - 1);
+  });
+  window.addEventListener('hashchange', function () { go(parseInt(location.hash.slice(1), 10) - 1 || 0); });
+
+  go(parseInt(location.hash.slice(1), 10) - 1 || 0);
+})();
+</script>
+</body>
+</html>

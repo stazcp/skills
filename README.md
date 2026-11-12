@@ -7,6 +7,8 @@ Claude Code plugins I use every day, for personal and work projects.
 /plugin install orc@staz
 /plugin install brain@staz
 /plugin install review-pr@staz
+/plugin install presentation@staz
+/plugin install standup@staz
 ```
 
 ## orc
@@ -94,6 +96,35 @@ notes (through `brain`, if you have it), and has a separate agent try to break
 each finding before you see it. Each finding comes with a what-could-go-wrong
 story, a trace you can click through, and the author's likely pushback. It
 drafts the review in your voice and posts nothing until you say so.
+
+## presentation
+
+`/presentation <source>` turns a dense doc, page, issue or topic into a short
+animated step-through HTML explainer: 8 to 12 scenes, one diagram each, built
+only from the source, with Confirmed / Likely / Not known chips so the reader
+can see what is solid. It writes one self-contained file and never publishes.
+
+## standup
+
+`/standup` builds a Yesterday / Today / Blockers report from your real GitHub
+activity (PRs, issues, commits). Plain text to read out or paste; it never
+posts.
+
+## Private settings
+
+Some skills read optional private settings from one folder: `$SKILLZ_CONTEXT`,
+or `~/.config/skillz` when that is unset. Every file in it is optional; with
+none, the skills fall back to safe defaults.
+
+| File | Read by | Holds |
+|---|---|---|
+| `prefs.md` | standup | `github_user`, `gh_orgs`, your main focus |
+| `notes.md` | standup | standing input GitHub can't see: non-PR work, blockers, time off |
+| `presentation.md` | presentation | default output folder, how to save there, audience default |
+
+Keep the folder wherever you keep private config (a dotfiles repo, say) and
+symlink it to `~/.config/skillz`. `brain` keeps its vault specs separately, in
+`~/.config/brain`.
 
 ## License
 
