@@ -1,0 +1,9 @@
+{
+  "name": "reaper",
+  "version": "0.1.0",
+  "description": "Work through a curated list of small bugs and tech-debt issues: check each is still worth doing, fix it, prove the fix with tests and screenshots, and open a PR for a human to review. Paced so it never outruns the team's reviews.",
+  "author": { "name": "Staz Christodoulakis", "url": "https://staz.ai" },
+  "homepage": "https://github.com/stazcp/skillz",
+  "repository": "https://github.com/stazcp/skillz",
+  "license": "MIT"
+}

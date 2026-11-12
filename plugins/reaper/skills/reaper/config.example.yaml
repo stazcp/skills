@@ -1,0 +1,48 @@
+# Reaper config for one repo. Copy to <context>/reaper/<owner>-<repo>.yaml,
+# where <context> is $SKILLZ_CONTEXT or ~/.config/skillz.
+
+identity:
+  assignee: your-github-login # who claimed issues are assigned to
+
+labels:
+  pick: reaper # a human adds this to an issue to hand it to Reaper
+  rejected: reaper-rejected # Reaper adds this when a task turns out too deep
+  pr: reaper # on every Reaper PR; capacity is counted from it
+
+pick:
+  types: [bug, tech-debt] # the issue must also carry one of these
+  exclude_labels: [] # never pick an issue with any of these
+
+ai_generated: # how to tell an AI-filed issue (only those may be closed)
+  authors: [] # e.g. bot logins
+  labels: []
+  body_markers: [] # e.g. a footer line your AI tools add
+
+limits:
+  max_diff_lines: 150
+  excluded_paths: [] # globs Reaper must never change
+
+caps:
+  max_in_review: 3 # open Reaper PRs before it stops starting new work
+  daily_max: 2 # PRs plus closes per local day
+  fix_rounds: 3
+  e2e_reruns: 3
+
+branch_prefix: reaper/
+
+project: # optional: set the issue's board status on claim
+  # owner: your-org
+  # number: 1
+  # status_field: Status
+  # in_progress: In Progress
+
+pr:
+  extra_labels: []
+  loop_skill: # the repo's skill that fixes CI and reviews, if any
+
+evidence:
+  upload: # how to turn a local file into a durable link, e.g. a skill name
+
+announce:
+  mode: draft # draft | post | off
+  channel: # where approval requests go

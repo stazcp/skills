@@ -27,6 +27,11 @@
       "name": "standup",
       "source": "./plugins/standup",
       "description": "A Yesterday / Today / Blockers standup report from your real GitHub activity. Plain text to read out or paste; never posts."
+    },
+    {
+      "name": "reaper",
+      "source": "./plugins/reaper",
+      "description": "Work through a curated list of small bugs and tech-debt issues: check each is still worth doing, fix it, prove the fix, and open a PR for a human to review. Paced so it never outruns the team's reviews."
     }
   ]
 }

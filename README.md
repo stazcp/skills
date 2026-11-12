@@ -9,6 +9,7 @@ Claude Code plugins I use every day, for personal and work projects.
 /plugin install review-pr@staz
 /plugin install presentation@staz
 /plugin install standup@staz
+/plugin install reaper@staz
 ```
 
 ## orc
@@ -110,6 +111,10 @@ can see what is solid. It writes one self-contained file and never publishes.
 activity (PRs, issues, commits). Plain text to read out or paste; it never
 posts.
 
+## reaper
+
+`/reaper` works through issues a human has labelled for it: it checks each is still worth doing, closes stale AI-generated ones, fixes the rest, proves the fix with tests and screenshots, and opens a ready PR that says no human has read it. It stops starting new work while too many of its PRs wait for review. Start with `/reaper --dry-run`; it needs a per-repo config (see `config.example.yaml`).
+
 ## Private settings
 
 Some skills read optional private settings from one folder: `$SKILLZ_CONTEXT`,
@@ -121,6 +126,7 @@ none, the skills fall back to safe defaults.
 | `prefs.md` | standup | `github_user`, `gh_orgs`, your main focus |
 | `notes.md` | standup | standing input GitHub can't see: non-PR work, blockers, time off |
 | `presentation.md` | presentation | default output folder, how to save there, audience default |
+| `reaper/<owner>-<repo>.yaml` | reaper | which issues to pick, caps, excluded paths, where to announce |
 
 Keep the folder wherever you keep private config (a dotfiles repo, say) and
 symlink it to `~/.config/skillz`. `brain` keeps its vault specs separately, in
