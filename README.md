@@ -6,6 +6,7 @@ Claude Code plugins I use every day, for personal and work projects.
 /plugin marketplace add stazcp/skills
 /plugin install orc@staz
 /plugin install brain@staz
+/plugin install review-pr@staz
 ```
 
 ## orc
@@ -81,6 +82,18 @@ Logseq or Foam graph, or a plain folder in a git repo. `--setup` only finds
 Obsidian vaults by itself, so give it the folder's path for anything else. If
 your tool doesn't read `[[wikilinks]]`, set the link style in the spec's
 Conventions section.
+
+## review-pr
+
+Review someone else's PR with an agent at your side, including code in a
+language you don't read well.
+
+`/review-pr <pr>` explains what the PR does in plain terms, with a glossary in
+a language you do know. It reviews the PR against the repo's own docs and your
+notes (through `brain`, if you have it), and has a separate agent try to break
+each finding before you see it. Each finding comes with a what-could-go-wrong
+story, a trace you can click through, and the author's likely pushback. It
+drafts the review in your voice and posts nothing until you say so.
 
 ## License
 

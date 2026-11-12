@@ -12,6 +12,11 @@
       "name": "brain",
       "source": "./plugins/brain",
       "description": "Save notes to, and recall them from, your Obsidian vaults: one vault per job plus a personal one, each with its own house rules."
+    },
+    {
+      "name": "review-pr",
+      "source": "./plugins/review-pr",
+      "description": "Review someone else's PR with an agent at your side, including code in a language you don't read well: plain-language explanation, independently verified findings, a draft you approve before anything is posted."
     }
   ]
 }
