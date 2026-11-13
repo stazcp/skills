@@ -54,4 +54,13 @@ jobs:
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           CI: "1"
+          TMPDIR: ${{ runner.temp }}
         run: scripts/eval-changed.sh
+
+      - name: Upload eval results
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: eval-results
+          path: ${{ runner.temp }}/eval-changed.*
+          retention-days: 7
