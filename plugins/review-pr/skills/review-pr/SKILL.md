@@ -52,6 +52,16 @@ Review the diff against the author's claim and the context from step 1. If a gen
 - **Decided against.** Does it contradict a decision record, a design doc or something the reviewer's notes say was ruled out?
 - **Tests that prove the claim.** Would a test fail if the change were reverted? Was an existing assertion weakened or deleted?
 
+### Relevance bar
+
+Before a finding goes anywhere near the draft, it has to pass all three:
+
+1. **Would the PR be worse off if it merged without this?** A design preference, a nicer pattern or a "could also" is not a finding unless the PR's own claim depends on it.
+2. **Is it the PR's doing?** Patterns that already exist in the codebase are not the author's fault. Counting existing call sites is context, not a finding.
+3. **Would it change the reviewer's verdict or the author's next edit?** If the honest answer is "probably nothing", drop it.
+
+Default to 0 to 3 findings. Say plainly what a finding does *not* show (a typed literal the compiler already checks, a pattern that predates the PR) and never write the stronger version. If the author or the user pushes back and the point turns out weak, concede and drop it. Don't defend it or look for a new angle.
+
 ## 4. Verify each finding independently
 
 The reviewer can't check the code, so they are trusting you. **Each finding that could lead to a change request gets a separate agent whose job is to break it.** Give it the finding and the head sha, not your reasoning. It returns `holds` or `refuted`, the strongest reason, and the `file:line` evidence.
@@ -82,7 +92,7 @@ at the head sha.
 
 Severity is your recommendation; the reviewer decides. Say what would make it blocking: "blocking if the PR claims to close the gap, follow-up otherwise".
 
-Order: blocking first, then follow-ups, then nits. At most three nits.
+Order: blocking first, then follow-ups. Leave nits out unless the user asks for them. After writing, re-read each finding as the author would and ask "would I act on this?"
 
 ## 6. Draft the review
 
