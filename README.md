@@ -135,7 +135,7 @@ failing case. `--all` runs every plugin, `--base <ref>` changes the base,
 commands. Locally it also snapshots your real brain vaults around the brain
 and presentation suites and stops if one changed. A pass on a clean tree
 writes `$(git rev-parse --git-common-dir)/evals-passed/<HEAD sha>`. CI runs the
-same script as the `evals` check on every PR (needs the `ANTHROPIC_API_KEY`
+same script as the `evals` check on every PR (needs the `CLAUDE_CODE_OAUTH_TOKEN`
 secret).
 
 ## Private settings
