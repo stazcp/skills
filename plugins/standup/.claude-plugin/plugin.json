@@ -1,8 +1,11 @@
 {
   "name": "standup",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A Yesterday / Today / Blockers standup report from your real GitHub activity. Plain text to read out or paste; never posts.",
-  "author": { "name": "Staz Christodoulakis", "url": "https://staz.ai" },
+  "author": {
+    "name": "Staz Christodoulakis",
+    "url": "https://staz.ai"
+  },
   "homepage": "https://github.com/stazcp/skillz",
   "repository": "https://github.com/stazcp/skillz",
   "license": "MIT"
