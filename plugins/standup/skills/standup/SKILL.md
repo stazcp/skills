@@ -105,6 +105,9 @@ Blockers
 
 Print the report in one fenced block so it copies cleanly. Under it, one line
 naming anything you could not check (auth failed, a search came back empty).
+If `gh` is missing or not authenticated, still print all three headings from
+`notes.md` and what you could verify, and say GitHub could not be checked;
+never stop without a report.
 Nothing else — no follow-up offers.
 
 The only write is to `notes.md`: retire a note whose work has shipped, and say

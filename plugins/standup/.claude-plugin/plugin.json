@@ -1,6 +1,6 @@
 {
   "name": "standup",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Yesterday / Today / Blockers standup report from your real GitHub activity. Plain text to read out or paste; never posts.",
   "author": {
     "name": "Staz Christodoulakis",
