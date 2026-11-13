@@ -1,0 +1,57 @@
+name: evals
+
+# Runs on every PR to main so the `evals` check always reports and can be
+# required; scripts/eval-changed.sh no-ops when no plugin changed.
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: evals-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  evals:
+    name: evals
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CLAUDE_CODE_VERSION: 2.1.323
+    steps:
+      - name: Require ANTHROPIC_API_KEY
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error title=Missing secret::ANTHROPIC_API_KEY is not set. Add it under Settings > Secrets and variables > Actions (PRs from forks do not receive secrets)."
+            exit 1
+          fi
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 22
+
+      # Bash grants run under Claude Code's OS sandbox, which on Linux needs
+      # bubblewrap + socat and unprivileged user namespaces (Ubuntu 24.04
+      # restricts them through AppArmor by default).
+      - name: Install sandbox deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq bubblewrap socat jq
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+
+      - name: Install Claude Code
+        run: npm i -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"
+
+      - name: Run evals for changed plugins
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CI: "1"
+        run: scripts/eval-changed.sh

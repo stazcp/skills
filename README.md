@@ -127,6 +127,17 @@ presentation needs a bare `--allow-tools Write` to save its file. brain writes
 to a throwaway vault in the run's temp HOME; its fixture refuses to run against
 a real home directory.
 
+`scripts/eval-changed.sh` runs the suites of the plugins changed against
+`origin/main` (committed and uncommitted), with those grants, in cheap mode
+(`--runs 1 --ablation none`), a per-plugin cost cap and one rerun of each
+failing case. `--all` runs every plugin, `--base <ref>` changes the base,
+`--max-cost-usd <usd>` sets the cap (default 3), `--dry-run` prints the
+commands. Locally it also snapshots your real brain vaults around the brain
+and presentation suites and stops if one changed. A pass on a clean tree
+writes `$(git rev-parse --git-common-dir)/evals-passed/<HEAD sha>`. CI runs the
+same script as the `evals` check on every PR (needs the `ANTHROPIC_API_KEY`
+secret).
+
 ## Private settings
 
 Some skills read optional private settings from one folder: `$SKILLZ_CONTEXT`,
