@@ -110,6 +110,23 @@ can see what is solid. It writes one self-contained file and never publishes.
 activity (PRs, issues, commits). Plain text to read out or paste; it never
 posts.
 
+## Evals
+
+Each plugin has a `claude plugin eval` suite under `plugins/<name>/evals/`
+(skill fires on its trigger, the output has the right shape, the never-post /
+never-publish rails hold). Fixtures are built by each case's `fixture.sh`, so
+pass `--scaffold`:
+
+```sh
+claude plugin eval plugins/orc --scaffold --runs 1
+claude plugin eval plugins/standup --scaffold --runs 1 --allow-tools "Bash(date*)" "Bash(cat*)"
+claude plugin eval plugins/review-pr --scaffold --runs 1 --allow-tools "Bash(git *)"
+```
+
+presentation needs a bare `--allow-tools Write` to save its file. brain writes
+to a throwaway vault in the run's temp HOME; its fixture refuses to run against
+a real home directory.
+
 ## Private settings
 
 Some skills read optional private settings from one folder: `$SKILLZ_CONTEXT`,
