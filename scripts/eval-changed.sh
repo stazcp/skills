@@ -72,7 +72,7 @@ fi
 # brain's cases list Write, Edit and Bash; Bash runs under the eval OS sandbox.
 grants_for() {
   case "$1" in
-    standup)      GRANTS=("Bash(date*)" "Bash(cat*)") ;;
+    standup)      GRANTS=(Bash) ;;  # reads notes with one chained command; prefix grants deny it
     review-pr)    GRANTS=("Bash(git *)") ;;
     presentation) GRANTS=(Write) ;;
     brain)        GRANTS=(Write Edit Bash) ;;

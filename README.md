@@ -119,7 +119,7 @@ pass `--scaffold`:
 
 ```sh
 claude plugin eval plugins/orc --scaffold --runs 1
-claude plugin eval plugins/standup --scaffold --runs 1 --allow-tools "Bash(date*)" "Bash(cat*)"
+claude plugin eval plugins/standup --scaffold --runs 1 --allow-tools Bash
 claude plugin eval plugins/review-pr --scaffold --runs 1 --allow-tools "Bash(git *)"
 ```
 
