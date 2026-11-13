@@ -1,0 +1,4 @@
+# `claude --resume history.jsonl` writes the resumed run back beside it as
+# <sessionId>.jsonl; that is run output, not part of the case.
+*.jsonl
+!history.jsonl

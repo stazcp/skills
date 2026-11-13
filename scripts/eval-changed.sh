@@ -76,7 +76,7 @@ grants_for() {
     review-pr)    GRANTS=("Bash(git *)") ;;
     presentation) GRANTS=(Write) ;;
     brain)        GRANTS=(Write Edit Bash) ;;
-    dream)        GRANTS=(Write Bash) ;;  # backup cp + plan.md outside the workspace
+    dream)        GRANTS=(Write Edit Bash) ;;  # backup cp + plan.md outside the workspace; Edit applies an approved plan
     *)            GRANTS=() ;;
   esac
 }
