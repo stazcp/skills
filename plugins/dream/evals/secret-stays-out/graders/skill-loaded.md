@@ -1,9 +1,8 @@
 ---
 type: tool_used
-tool: Bash
-input_match: '\.local/state/dream'
+tool: Write
+input_match: 'local/state/dream/[^"]*plan\.md'
 ---
 
-A `/dream` prompt expands the skill inline as a slash command, so there is no
-Skill tool call to grade. Making the backup under `~/.local/state/dream`
-(SKILL.md §2.4) is the sign the skill's instructions are what ran.
+SKILL.md §2.4 writes the plan with the Write tool, which the Bash sandbox
+can't block. Writing it there is also the sign the skill's instructions ran.

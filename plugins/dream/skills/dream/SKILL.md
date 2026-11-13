@@ -30,7 +30,7 @@ is pointed at, one at a time, and moves nothing between them.
 | `memory` | Claude's auto-memory for this project | the directory the session names (`~/.claude/projects/<slug>/memory/`, index `MEMORY.md`); if none is named, `ls -d ~/.claude/projects/*/memory` and ask which |
 | `@<name>` | a brain vault | spec at `${BRAIN_HOME:-~/.config/brain}/<name>.md` or `<name>/brain.md`; the default vault's name is in `active.local`, else `active`, in that home |
 | `<path>` | a folder or one file of Markdown | as given; a folder is read recursively |
-| `--plan-only` | modifier | write the plan, skip the question, apply nothing |
+| `--plan-only` | modifier | write the plan, skip the backup and the question, apply nothing |
 
 Several targets may be given. Each is dreamed on its own: its own read,
 plan, backup, apply and report. **Nothing read from one target informs,
@@ -108,8 +108,11 @@ name or a caveat, it isn't a merge: keep both and link them instead.
    `memory-<slug>`, the vault's name, or the path's basename. Copy the target
    into `before/` (`cp -R`). A vault's git history is not the backup; the
    copy is. If the sandbox blocks the copy, run that one `cp` unsandboxed and
-   say so. Never back up into the target itself.
-2. Write `plan.md` next to `before/`, in the shape in `plan-template.md`:
+   say so. Never back up into the target itself. `--plan-only` skips the
+   copy, since nothing in the target will change; the plan still goes in
+   that directory, and its Backup line says `none (plan only)`.
+2. Write `plan.md` next to `before/` with the Write tool, not a shell
+   redirect (the Bash sandbox may not reach that directory), in the shape in `plan-template.md`:
    one numbered line per change (merge, resolve, retire, pattern,
    absolutize, link, tighten, rename, index), each with the files, the
    reason and, for a retire, how (archive / mark / delete).

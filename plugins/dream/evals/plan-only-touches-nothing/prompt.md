@@ -1,5 +1,5 @@
 ---
-description: With --plan-only, dream backs up, writes plan.md outside the target and changes no note; the plan catches the duplicate, the contradiction and the relative date.
+description: With --plan-only, dream writes plan.md (with Write) outside the target and changes no note; the plan catches the duplicate, the contradiction and the relative date.
 tags: [dream, safety]
 max_turns: 30
 timeout_seconds: 480

@@ -1,7 +1,8 @@
 ---
-type: llm
-focus: trace
+type: tool_used
+tool: Write
+input_match: 'local/state/dream/[^"]*plan\.md'
 ---
 
-PASS if Claude wrote a `plan.md` under `~/.local/state/dream/` (with the Write tool or a Bash redirect such as `cat > …/plan.md`).
-FAIL if no `plan.md` was written there.
+SKILL.md §2.4 writes the plan with the Write tool, which the Bash sandbox
+can't block. Writing it there is also the sign the skill's instructions ran.
