@@ -23,7 +23,9 @@ unset. Read `<context>/prefs.md` for identity (`github_user`, `gh_orgs`) and
 the user's main focus, and `<context>/notes.md` for standing input GitHub
 cannot see: non-PR work, blockers, OOO. `notes.md` wins over anything you
 infer, but never over verified GitHub state. A missing file means "this
-context has none"; say so in one line and carry on. With no `github_user`,
+context has none"; say so in one line and carry on. Read them with the Read
+tool, not a shell command; if a shell read is denied, use Read rather than
+giving up. With no `github_user`,
 use `gh api user -q .login`; with no `gh_orgs`, don't scope by org.
 
 ## 1. Window
