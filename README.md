@@ -147,8 +147,10 @@ claude plugin eval plugins/review-pr --scaffold --runs 1 --allow-tools "Bash(git
 
 presentation needs a bare `--allow-tools Write` to save its file. brain writes
 to a throwaway vault in the run's temp HOME; its fixture refuses to run against
-a real home directory. dream needs `--allow-tools Write Bash` for its backup
-and plan under the temp HOME, and its fixture has the same guard.
+a real home directory. dream needs `--allow-tools Write Edit Bash`: Write and
+Bash for its backup and plan under the temp HOME, Edit to apply an approved plan
+(its `apply-after-yes` case replays the approval from `history.jsonl`); its
+fixtures have the same guard.
 
 `scripts/eval-changed.sh` runs the suites of the plugins changed against
 `origin/main` (committed and uncommitted), with those grants, in cheap mode
