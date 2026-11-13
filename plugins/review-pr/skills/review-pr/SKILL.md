@@ -22,7 +22,7 @@ gh api repos/<owner>/<repo>/pulls/<pr>/comments           # inline threads
 git fetch origin pull/<pr>/head:review/<pr> <base>
 ```
 
-Read code at the PR's head commit (`git show <sha>:<path>`), never from whatever branch is checked out locally.
+Read code at the PR's head commit (`git show "${sha}:<path>"`, with the braces and quotes, because zsh reads a bare `$sha:g…` as a history modifier), never from whatever branch is checked out locally.
 
 **Context, in this order:**
 
@@ -96,7 +96,9 @@ Order: blocking first, then follow-ups. Leave nits out unless the user asks for 
 
 ## 6. Draft the review
 
-Write it to a file and show it to the user in full:
+**No findings means no text.** If nothing survives steps 3 and 4, don't draft a comment. Recommend approving with an empty body, with no summary, no "LGTM" and no footer, and ask "approve with no comment?" Anything you checked for the author, such as a pre-merge check they asked reviewers to do, goes to the user in your reply, not into the post. The approval is the answer.
+
+Otherwise, write the draft to a file and show it to the user in full:
 
 - A plain comment review by default. Suggest requesting changes only for a verified blocking finding, and say why.
 - **Inline comments only on lines inside the diff**, since GitHub rejects others. Findings about code outside the diff go in the review body, with links.
@@ -113,12 +115,12 @@ Wait for an explicit go-ahead for **this** draft. Then:
    `gh api -X POST repos/<owner>/<repo>/pulls/<pr>/reviews --input <file>`
 3. Return the review URL.
 
-Never approve on the user's behalf unless they ask for an approval in those words.
+Never approve on the user's behalf unless they ask for an approval in those words. An empty approval is `gh pr review <pr> --approve --body ""`.
 
 ## What the user gets
 
 1. The plain-language explanation (step 2).
 2. The findings (step 5), plus one line for each dropped finding.
-3. The draft review, and: "post this, edit it, or drop anything?"
+3. The draft review, and: "post this, edit it, or drop anything?" With no findings, only: "approve with no comment?"
 
 Keep it readable in a few minutes. The reviewer's time is what this skill exists to save.
