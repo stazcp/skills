@@ -6,6 +6,7 @@ Claude Code plugins I use every day, for personal and work projects.
 /plugin marketplace add stazcp/skillz
 /plugin install orc@staz
 /plugin install brain@staz
+/plugin install dream@staz
 /plugin install review-pr@staz
 /plugin install presentation@staz
 /plugin install standup@staz
@@ -84,6 +85,27 @@ Logseq or Foam graph, or a plain folder in a git repo. `--setup` only finds
 Obsidian vaults by itself, so give it the folder's path for anything else. If
 your tool doesn't read `[[wikilinks]]`, set the link style in the spec's
 Conventions section.
+
+## dream
+
+Consolidate and organize a pile of memory notes the way sleep consolidates a
+day. It works on Claude's auto-memory, a `brain` vault, or any folder of
+Markdown.
+
+| | |
+|---|---|
+| `/dream` | Ask which memory files or collections to improve |
+| `/dream memory` | Claude's auto-memory for the current project |
+| `/dream @<vault>` | A `brain` vault, following that vault's spec |
+| `/dream <path>` | Any file or folder of Markdown |
+| `/dream … --plan-only` | Write the plan and stop |
+
+It reads everything, checks claims it can check, then groups notes by topic,
+merges near-duplicates, resolves contradictions (newer wins), retires
+superseded entries, makes dates absolute and links related notes. A big
+collection gets an index or table of contents, which it keeps in sync. It
+takes a backup and shows you a plan first, and changes nothing until you say
+so. A vault never loses a note: superseded ones are archived or marked.
 
 ## review-pr
 

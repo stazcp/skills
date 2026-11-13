@@ -1,0 +1,9 @@
+{
+  "name": "dream",
+  "version": "0.1.0",
+  "description": "Consolidate and organize your memory notes the way sleep consolidates a day: merge duplicates, retire superseded entries, link related notes and add indexes, from a plan you approve first.",
+  "author": { "name": "Staz Christodoulakis", "url": "https://staz.ai" },
+  "homepage": "https://github.com/stazcp/skillz",
+  "repository": "https://github.com/stazcp/skillz",
+  "license": "MIT"
+}
